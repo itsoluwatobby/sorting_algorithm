@@ -1,23 +1,60 @@
 #include "sort.h"
 
 /**
- * quick_sort - function that sorts an array of integers in
- *		ascending order using the Quick sort algorithm
- * @array: given array
- * @size: size of the array
+ * swap_ints - Swap two values in an array.
+ * @a: first integer to swap.
+ * @b: second integer to swap.
 */
 
-void quick_sort(int *array, size_t size)
+void swap_ints(int *a, int *b)
 {
-	if (array == NULL || size < 2)
-		return;
+	int tmp;
 
-	lomuto_sort(array, 0, size - 1, size);
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
+/**
+ * partition - a function that splits the array after getting
+ *		the pivot
+ * @array: given array to sort
+ * @start: start index to begin with
+ * @end: end index of the array
+ * @size: size of the array
+ *
+ * Return: the pivot location
+*/
+
+int partition(int *array, int start, int end, size_t size)
+{
+	int *pivot, above, below;
+
+	pivot = array + end;
+	for (above = below = start; below < end; below++)
+	{
+		if (array[below] < *pivot)
+		{
+			if (above < below)
+			{
+				swap_ints(array + below, array + above);
+				print_array(array, size);
+			}
+			above++;
+		}
+	}
+	if (array[above] > *pivot)
+	{
+		swap_ints(array + above, pivot);
+		print_array(array, size);
+	}
+
+	return (above);
 }
 
 /**
  * lomuto_sort - a recursive function that sorts the array
- *			recursively
+ *		recursively
  * @array: given array to sort
  * @start: start index to begin with
  * @end: end index of the array
@@ -36,39 +73,16 @@ void lomuto_sort(int *array, int start, int end, size_t size)
 }
 
 /**
- * partition - a function that splits the array after getting
- *		the pivot
- * @array: given array to sort
- * @start: start index to begin with
- * @end: end index of the array
+ * quick_sort - function that sorts an array of integers in
+ *		ascending order using the Quick sort algorithm
+ * @array: given array
  * @size: size of the array
- *
- * Return: the pivot location
 */
 
-int partition(int *array, int start, int end, size_t size)
+void quick_sort(int *array, size_t size)
 {
-	int pivot;
-	int temp, j, i;
+	if (array == NULL || size < 2)
+		return;
 
-	pivot = array[end];
-	i = start - 1;
-	for (j = start;  j <= end - 1; j++)
-	{
-		if (array[j] < pivot)
-		{
-			i++;
-			temp = array[i];
-			array[i] = array[j];
-			array[j] = temp;
-		}
-	}
-	i++;
-	temp = array[i];
-	array[i] = array[end];
-	array[end] = temp;
-
-	print_array(array, size);
-
-	return (i);
+	lomuto_sort(array, 0, size - 1, size);
 }
