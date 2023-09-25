@@ -12,11 +12,11 @@ void quick_sort(int *array, size_t size)
 	if (array == NULL || size < 2)
 		return;
 
-	lomuto_recursion(array, 0, size - 1, size);
+	lomuto_sort(array, 0, size - 1, size);
 }
 
 /**
- * lomuto_recursion - a recursive function that sorts the array
+ * lomuto_sort - a recursive function that sorts the array
  *			recursively
  * @array: given array to sort
  * @start: start index to begin with
@@ -24,15 +24,15 @@ void quick_sort(int *array, size_t size)
  * @size: size of the array
 */
 
-void lomuto_recursion(int *array, int start, int end, size_t size)
+void lomuto_sort(int *array, int start, int end, size_t size)
 {
 	int pivot;
 
 	if (end <= start)
 		return;
 	pivot = partition(array, start, end, size);
-	lomuto_recursion(array, start, pivot - 1, size);
-	lomuto_recursion(array, pivot + 1, end, size);
+	lomuto_sort(array, start, pivot - 1, size);
+	lomuto_sort(array, pivot + 1, end, size);
 }
 
 /**
@@ -48,9 +48,11 @@ void lomuto_recursion(int *array, int start, int end, size_t size)
 
 int partition(int *array, int start, int end, size_t size)
 {
-	int pivot = array[end];
-	int temp, j, i = start - 1;
+	int pivot;
+	int temp, j, i;
 
+	pivot = array[end];
+	i = start - 1;
 	for (j = start;  j <= end - 1; j++)
 	{
 		if (array[j] < pivot)
