@@ -27,10 +27,10 @@ void shell_sort(int *array, size_t size)
 {
 	size_t i, j, gap;
 
-	if (array == NULL || size < 2)
+	if (!array || size < 2)
 		return;
 
-	for (gap = 0; gap < (size / 3);)
+	for (gap = 1; gap < (size / 3);)
 		gap = gap * 3 + 1;
 
 	for (; gap >= 1; gap /= 3)
